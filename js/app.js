@@ -1,77 +1,3 @@
-// Starfield Animation - Dynamic Stars
-function createStars(numStars = 120) {
-  const starsLayer = document.getElementById('stars-layer');
-  if (!starsLayer) return;
-  starsLayer.innerHTML = '';
-  for (let i = 0; i < numStars; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    const size = Math.random() * 2 + 1;
-    star.style.width = `${size}px`;
-    star.style.height = `${size}px`;
-    star.style.top = `${Math.random() * 100}%`;
-    star.style.left = `${Math.random() * 100}%`;
-    star.style.opacity = Math.random() * 0.7 + 0.3;
-    starsLayer.appendChild(star);
-  }
-}
-
-function animateStars() {
-  const stars = document.querySelectorAll('.star');
-  stars.forEach((star, idx) => {
-    star.animate([
-      { transform: 'translateY(0px) scale(1)' },
-      { transform: `translateY(${Math.sin(idx) * 8}px) scale(1.05)` },
-      { transform: 'translateY(0px) scale(1)' }
-    ], {
-      duration: 4000 + Math.random() * 2000,
-      iterations: Infinity,
-      direction: 'alternate',
-      easing: 'ease-in-out'
-    });
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  createStars();
-  animateStars();
-});
-/**
- * Alien: Earth Quiz Application
- * Sistema de quiz orientado a objetos para descobrir personagens do universo Alien
- * 
- * @author Alien: Earth Quiz Team
- * @version 1.0.0
- * 
- * Performance Features:
- * - LocalStorage para salvar progresso
- * - Lazy loading de assets
- * - Debounced event handlers
- * - Optimized DOM operations
- */
-
-// ===================================
-// UTILITY FUNCTIONS
-// ===================================
-
-/**
- * Debounce function para otimizar performance
- */
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
-/**
- * LocalStorage manager
- */
 class StorageManager {
   static save(key, data) {
     try {
@@ -116,13 +42,6 @@ class StorageManager {
   }
 }
 
-// ===================================
-// CLASSES DE DADOS
-// ===================================
-
-/**
- * Classe que representa um personagem do universo Alien: Earth
- */
 class Character {
   constructor(id, name, role, description, imagePath, traits = {}) {
     this.id = id;
@@ -159,43 +78,26 @@ class Character {
   }
 }
 
-/**
- * Classe que representa uma pergunta do quiz
- */
 class Question {
   constructor(id, text, imagePath, options) {
     this.id = id;
     this.text = text;
     this.imagePath = imagePath;
-    this.options = options; // Array de objetos { text, scores }
+    this.options = options;
   }
 
-  /**
-   * Valida se a pergunta tem pelo menos 2 opções
-   * @returns {boolean} True se válida
-   */
   isValid() {
     return this.options && this.options.length >= 2;
   }
 }
 
-/**
- * Classe que representa uma opção de resposta
- */
 class QuestionOption {
   constructor(text, scores) {
     this.text = text;
-    this.scores = scores; // Objeto com {characterId: points}
+    this.scores = scores;
   }
 }
 
-// ===================================
-// CLASSES DE LÓGICA DE NEGÓCIO
-// ===================================
-
-/**
- * Classe responsável por gerenciar o sistema de quiz
- */
 class QuizManager {
   constructor() {
     this.characters = [];
@@ -203,22 +105,16 @@ class QuizManager {
     this.currentQuestionIndex = 0;
     this.userAnswers = [];
     this.isCompleted = false;
-    this.maxScorePerQuestion = 3; // Pontuação máxima por pergunta
+    this.maxScorePerQuestion = 3;
 
     this.initializeData();
   }
 
-  /**
-   * Inicializa os dados dos personagens e perguntas
-   */
   initializeData() {
     this.setupCharacters();
     this.setupQuestions();
   }
 
-  /**
-   * Configura os personagens do universo Alien: Earth (2025)
-   */
   setupCharacters() {
     this.characters = [
       new Character(
@@ -256,9 +152,6 @@ class QuizManager {
     ];
   }
 
-  /**
-   * Configura as perguntas do quiz específicas para Alien: Earth (2025)
-   */
   setupQuestions() {
     this.questions = [
       new Question(1, 'A Terra foi invadida pelos Xenomorfos. Você ouve gritos vindos de um prédio próximo. Qual é sua reação?', null, [
@@ -323,12 +216,7 @@ class QuizManager {
       ])
     ];
   }
-  // ...existing code...
 
-  /**
-   * Obtém a pergunta atual
-   * @returns {Question|null} Pergunta atual ou null se não houver mais perguntas
-   */
   getCurrentQuestion() {
     if (this.currentQuestionIndex < this.questions.length) {
       return this.questions[this.currentQuestionIndex];
@@ -336,16 +224,11 @@ class QuizManager {
     return null;
   }
 
-  /**
-   * Registra a resposta do usuário
-   * @param {number} optionIndex - Índice da opção selecionada
-   */
   answerQuestion(optionIndex) {
     const currentQuestion = this.getCurrentQuestion();
     if (currentQuestion && optionIndex >= 0 && optionIndex < currentQuestion.options.length) {
       const selectedOption = currentQuestion.options[optionIndex];
 
-      // Armazena a resposta
       this.userAnswers[this.currentQuestionIndex] = {
         questionId: currentQuestion.id,
         optionIndex: optionIndex,
@@ -353,7 +236,6 @@ class QuizManager {
         scores: selectedOption.scores
       };
 
-      // Adiciona pontos aos personagens
       for (const [characterId, points] of Object.entries(selectedOption.scores)) {
         const character = this.getCharacterById(characterId);
         if (character) {
@@ -361,14 +243,10 @@ class QuizManager {
         }
       }
 
-      // Salva progresso no localStorage
       this.saveProgress();
     }
   }
 
-  /**
-   * Salva o progresso atual no localStorage
-   */
   saveProgress() {
     const progressData = {
       currentQuestionIndex: this.currentQuestionIndex,
@@ -383,10 +261,6 @@ class QuizManager {
     StorageManager.save('progress', progressData);
   }
 
-  /**
-   * Carrega o progresso salvo do localStorage
-   * @returns {boolean} True se conseguiu carregar progresso
-   */
   loadProgress() {
     const progressData = StorageManager.load('progress');
 
@@ -396,7 +270,6 @@ class QuizManager {
       this.currentQuestionIndex = progressData.currentQuestionIndex;
       this.userAnswers = progressData.userAnswers;
 
-      // Restaura scores dos personagens
       progressData.characterScores.forEach(charData => {
         const character = this.getCharacterById(charData.id);
         if (character) {
@@ -411,17 +284,10 @@ class QuizManager {
     }
   }
 
-  /**
-   * Remove o progresso salvo
-   */
   clearProgress() {
     StorageManager.remove('progress');
   }
 
-  /**
-   * Avança para a próxima pergunta
-   * @returns {boolean} True se há mais perguntas, false se o quiz acabou
-   */
   nextQuestion() {
     if (this.currentQuestionIndex < this.questions.length - 1) {
       this.currentQuestionIndex++;
@@ -432,61 +298,41 @@ class QuizManager {
     }
   }
 
-  /**
-   * Volta para a pergunta anterior
-   * @returns {boolean} True se conseguiu voltar
-   */
   previousQuestion() {
     if (this.currentQuestionIndex > 0) {
-      // Remove a pontuação da pergunta atual antes de voltar
       this.removeCurrentQuestionScore();
       this.currentQuestionIndex--;
       return true;
     }
     return false;
   }
-  // Remove a pontuação da pergunta atual antes de voltar
 
-  /**
-   * Remove a pontuação da pergunta atual dos personagens
-   */
   removeCurrentQuestionScore() {
     const answer = this.userAnswers[this.currentQuestionIndex];
     if (answer) {
       for (const [characterId, points] of Object.entries(answer.scores)) {
         const character = this.getCharacterById(characterId);
         if (character) {
-          character.addScore(-points); // Remove os pontos
+          character.addScore(-points);
         }
       }
       this.userAnswers[this.currentQuestionIndex] = null;
     }
   }
 
-  /**
-   * Obtém personagem por ID
-   * @param {string} id - ID do personagem
-   * @returns {Character|null} Personagem encontrado ou null
-   */
   getCharacterById(id) {
     return this.characters.find(char => char.id === id) || null;
   }
 
-  /**
-   * Calcula o resultado final do quiz
-   * @returns {Object} Objeto com resultado detalhado
-   */
   calculateResult() {
     if (!this.isCompleted) {
       return null;
     }
 
-    // Encontra o personagem com maior pontuação
     const winnerCharacter = this.characters.reduce((prev, current) =>
       current.score > prev.score ? current : prev
     );
 
-    // Calcula pontuação máxima possível
     const maxPossibleScore = this.questions.length * this.maxScorePerQuestion;
 
     return {
@@ -500,22 +346,14 @@ class QuizManager {
     };
   }
 
-  /**
-   * Reinicia o quiz
-   */
   restart() {
     this.currentQuestionIndex = 0;
     this.userAnswers = [];
     this.isCompleted = false;
 
-    // Reseta scores dos personagens
     this.characters.forEach(char => char.resetScore());
   }
 
-  /**
-   * Obtém o progresso atual do quiz
-   * @returns {Object} Objeto com informações de progresso
-   */
   getProgress() {
     return {
       current: this.currentQuestionIndex + 1,
@@ -525,37 +363,25 @@ class QuizManager {
     };
   }
 
-  /**
-   * Verifica se há resposta para a pergunta atual
-   * @returns {boolean} True se há resposta
-   */
   hasCurrentAnswer() {
     return this.userAnswers[this.currentQuestionIndex] !== undefined;
   }
 
-  /**
-   * Obtém a resposta atual (se houver)
-   * @returns {Object|null} Resposta atual ou null
-   */
   getCurrentAnswer() {
     return this.userAnswers[this.currentQuestionIndex] || null;
   }
 }
 
 
-// ===================================
-// VIEW (QuizView)
-// ===================================
 class QuizView {
   constructor() {
-    // Seções principais
     this.sections = {
       loading: document.getElementById('loading-screen'),
       landing: document.getElementById('landing-section'),
       quiz: document.getElementById('quiz-section'),
       results: document.getElementById('results-section')
     };
-    // Elementos do quiz
+
     this.quizElements = {
       progressFill: document.getElementById('progress-fill'),
       currentQuestion: document.getElementById('current-question'),
@@ -568,7 +394,7 @@ class QuizView {
       nextBtnText: document.getElementById('next-btn-text'),
       exitBtn: document.getElementById('exit-quiz-btn')
     };
-    // Elementos de resultado
+
     this.resultElements = {
       characterIcon: document.getElementById('result-character-icon'),
       characterName: document.getElementById('result-character-name'),
@@ -576,7 +402,7 @@ class QuizView {
       characterDescription: document.getElementById('result-character-description'),
       score: document.getElementById('result-score')
     };
-    // Botões principais
+
     this.buttons = {
       startQuiz: document.getElementById('start-quiz-btn'),
       learnMore: document.getElementById('learn-more-btn'),
@@ -700,7 +526,7 @@ class QuizView {
     if (this.resultElements.score) {
       this.resultElements.score.textContent = `${result.compatibilityPercentage}%`;
     }
-    // Volta para a landing-page e exibe o modal centralizado
+
     this.showSection('landing');
     setTimeout(() => {
       const modal = document.getElementById('result-modal');
@@ -744,9 +570,6 @@ class QuizView {
   }
 }
 
-// ===================================
-// CONTROLLER (QuizController)
-// ===================================
 class QuizController {
   constructor() {
     this.quiz = new QuizManager();
@@ -848,13 +671,10 @@ class QuizController {
     if (hasMore) {
       this.view.updateQuizInterface(this.quiz);
     } else {
-      // Quiz completed: clear progress and show results
       this.quiz.clearProgress();
       this.view.showResults(this.quiz.calculateResult());
-      // Add listeners for modal actions
       const modal = document.getElementById('result-modal');
       if (modal) {
-        // 'Fazer novamente' button
         const restartBtn = document.getElementById('restart-quiz-btn');
         if (restartBtn) {
           restartBtn.onclick = () => {
@@ -862,14 +682,14 @@ class QuizController {
             this.startQuiz();
           };
         }
-        // 'Compartilhar' button
+
         const shareBtn = document.getElementById('share-result-btn');
         if (shareBtn) {
           shareBtn.onclick = () => {
             this.shareResult();
           };
         }
-        // 'Voltar para Home' button
+
         const backHomeBtn = document.getElementById('back-home-btn');
         if (backHomeBtn) {
           backHomeBtn.onclick = () => {
@@ -917,23 +737,45 @@ class QuizController {
   }
 
   shareResult() {
-    // Implementar lógica de compartilhamento futuramente
     this.view.showNotification('Função de compartilhamento em breve!');
   }
 }
 
-// ===================================
-// INICIALIZAÇÃO DA APLICAÇÃO
-// ===================================
+function createStars(numStars = 120) {
+  const starsLayer = document.getElementById('stars-layer');
+  if (!starsLayer) return;
+  starsLayer.innerHTML = '';
+  for (let i = 0; i < numStars; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2 + 1;
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.top = `${Math.random() * 100}%`;
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.opacity = Math.random() * 0.7 + 0.3;
+    starsLayer.appendChild(star);
+  }
+}
 
-/**
- * Inicializa a aplicação quando o DOM estiver carregado
- */
+function animateStars() {
+  const stars = document.querySelectorAll('.star');
+  stars.forEach((star, idx) => {
+    star.animate([
+      { transform: 'translateY(0px) scale(1)' },
+      { transform: `translateY(${Math.sin(idx) * 8}px) scale(1.05)` },
+      { transform: 'translateY(0px) scale(1)' }
+    ], {
+      duration: 4000 + Math.random() * 2000,
+      iterations: Infinity,
+      direction: 'alternate',
+      easing: 'ease-in-out'
+    });
+  });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Inicializa o controller principal
   const controller = new QuizController();
-  // Adiciona animações CSS para notificações
   const style = document.createElement('style');
   style.textContent = `
         @keyframes slideIn {
@@ -946,26 +788,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
   document.head.appendChild(style);
-  // Log de inicialização (remover em produção)
-  console.log('Alien: Earth Quiz inicializado com sucesso.');
-  console.log('Personagens carregados:', controller.quiz.characters.length);
-  console.log('Perguntas carregadas:', controller.quiz.questions.length);
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
   }
+
+  createStars();
+  animateStars();
 });
-
-// ===================================
-// EXPORTAÇÕES (se usando módulos)
-// ===================================
-
-// Caso futuramente queira usar módulos ES6
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    Character,
-    Question,
-    QuestionOption,
-    QuizManager,
-    UIManager
-  };
-}
