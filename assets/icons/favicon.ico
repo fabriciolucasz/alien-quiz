@@ -1,0 +1,26 @@
+<!-- Alien: Earth Favicon -->
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect width="32" height="32" fill="#0a0a0a" rx="4"/>
+    
+    <!-- Alien head silhouette -->
+    <ellipse cx="16" cy="18" rx="8" ry="12" fill="#2a3a2a"/>
+    
+    <!-- Elongated cranium -->
+    <path d="M10 12 Q16 6 22 12 Q19 8 16 8 Q13 8 10 12" fill="#2a3a2a"/>
+    
+    <!-- Glowing eyes -->
+    <circle cx="13" cy="16" r="1.5" fill="#00ff88"/>
+    <circle cx="19" cy="16" r="1.5" fill="#00ff88"/>
+    
+    <!-- Spine ridge -->
+    <rect x="15.5" y="12" width="1" height="16" fill="#00ff88" opacity="0.6"/>
+    
+    <!-- Bio-luminescent dots -->
+    <circle cx="16" cy="14" r="0.5" fill="#00ff88" opacity="0.8"/>
+    <circle cx="16" cy="18" r="0.5" fill="#00ff88" opacity="0.8"/>
+    <circle cx="16" cy="22" r="0.5" fill="#00ff88" opacity="0.8"/>
+    
+    <!-- Energy field -->
+    <circle cx="16" cy="16" r="14" fill="none" stroke="#00ff88" stroke-width="0.5" opacity="0.3"/>
+</svg>
