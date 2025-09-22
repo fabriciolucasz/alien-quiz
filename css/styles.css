@@ -1,33 +1,94 @@
+.modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-bg-secondary);
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+  border-radius: 4px;
+}
+
+/* Botão com background place.svg */
+#start-quiz-btn {
+  position: relative;
+  background: url('../assets/images/place.svg') no-repeat center/cover;
+  background-size: contain;
+  background-position: center;
+  /* filter: brightness(0.8) sepia(1) hue-rotate(90deg) saturate(2); */
+  color: var(--color-text-primary);
+  /* border: none;; */
+  /* border-radius: var(--radius-md); */
+  /* box-shadow: 0 2px 16px rgba(0, 255, 136, 0.12); */
+  padding: 1.2rem 2.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1;
+  overflow: hidden;
+}
+
 /* Modal Resultado Quiz */
+
+
 .result-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(10, 10, 10, 0.92);
+  z-index: 9998;
+  opacity: 1;
+  transition: opacity 0.3s;
+  pointer-events: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  opacity: 1;
-  transition: opacity 0.3s;
+}
+
+.result-modal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 1;
+  backdrop-filter: blur(8px);
+}
+
+
+.modal-content {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(120deg, #1a1a1a 80%, #222 100%);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 40px var(--color-shadow);
+  padding: 2.5rem 2rem 2rem;
+  max-width: 800px;
+  width: 100%;
+  max-height: 700px;
+  margin: auto;
+  animation: modal-in 0.4s cubic-bezier(.36, .07, .19, .97);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
 }
 
 .result-modal.hidden {
   opacity: 0;
   pointer-events: none;
-}
-
-.modal-content {
-  background: linear-gradient(120deg, #1a1a1a 80%, #222 100%);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 0 40px var(--color-shadow);
-  padding: 2.5rem 2rem 2rem;
-  max-width: 420px;
-  width: 100%;
-  position: relative;
-  animation: modal-in 0.4s cubic-bezier(.36, .07, .19, .97);
 }
 
 @keyframes modal-in {
@@ -130,7 +191,7 @@
   /* Cyan accent */
 
   /* Background Colors */
-  --color-bg-primary: #0a0a0a;
+  --color-bg-primary: #0F0F0F;
   /* Deep black */
   --color-bg-secondary: #1a1a1a;
   /* Dark gray */
@@ -293,15 +354,21 @@ body.loading {
    =================================== */
 
 .header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
-  background: rgba(10, 10, 10, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--color-border);
-  z-index: 1000;
+  margin-top: 16px;
   transition: var(--transition-normal);
+}
+
+.header .line {
+  width: 100%;
+  height: 2px;
+  background: var(--color-bg-tertiary);
+  animation: line-expand 1.5s ease-out forwards;
 }
 
 .nav-container {
@@ -377,16 +444,17 @@ body.loading {
   position: absolute;
   width: 100%;
   height: 100%;
-  background:
-    radial-gradient(2px 2px at 20px 30px, white, transparent),
-    radial-gradient(2px 2px at 40px 70px, white, transparent),
-    radial-gradient(1px 1px at 90px 40px, white, transparent),
-    radial-gradient(1px 1px at 130px 80px, white, transparent),
-    radial-gradient(2px 2px at 160px 30px, white, transparent);
-  background-repeat: repeat;
-  background-size: 200px 200px;
-  animation: twinkle 10s ease-in-out infinite, stars-move 30s linear infinite, stars-shake 1.5s cubic-bezier(.36, .07, .19, .97) infinite;
-  will-change: transform, opacity;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.7);
+  transition: opacity 0.5s;
 }
 
 @keyframes stars-move {
@@ -451,70 +519,56 @@ body.loading {
   width: 100%;
   height: 40vh;
   pointer-events: none;
-  z-index: 0;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.wall-pe-mountain2 {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 70px;
+  width: 100%;
+  height: 100%;
+  /* opacity: 0.7; */
+  /* filter: brightness(0.7) sepia(1) hue-rotate(90deg) saturate(2); */
+  z-index: 2;
+  animation: wallpe-move 22s linear infinite alternate;
+}
+
+.wall-pe-mountain1 {
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  top: 100px;
+  width: 100%;
+  height: 100%;
+  /* opacity: 0.8; */
+  /* filter: brightness(0.8) sepia(1) hue-rotate(90deg) saturate(2); */
+  z-index: 3;
+  animation: mountain1-wave 3.5s cubic-bezier(.36, .07, .19, .97) infinite alternate;
 }
 
 .wall-pe-city {
   position: absolute;
-  left: 10%;
-  bottom: 0;
-  width: 80vw;
-  max-width: 900px;
-  opacity: 0.7;
-  animation: city-move 20s linear infinite alternate;
-}
-
-@keyframes city-move {
-  0% {
-    transform: translateX(0) scale(1);
-  }
-
-  100% {
-    transform: translateX(-30px) scale(1.03);
-  }
-}
-
-.wall-pe-land2,
-.wall-pe-land1 {
-  position: absolute;
   left: 0;
-  bottom: 0;
-  width: 100vw;
-  opacity: 0.5;
-  animation: land-move 30s linear infinite alternate;
-}
-
-@keyframes land-move {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(40px);
-  }
+  bottom: auto;
+  top: 60px;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+  /* filter: brightness(0.9) sepia(1) hue-rotate(90deg) saturate(2); */
+  z-index: 1;
+  animation: wallpe-move 14s linear infinite alternate;
 }
 
 .wall-pe-soldier {
   position: absolute;
-  left: 60%;
-  bottom: 10px;
-  width: 120px;
-  opacity: 0.9;
-  animation: soldier-walk 2s steps(6) infinite;
-}
-
-@keyframes soldier-walk {
-  0% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
+  width: 70%;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 4;
 }
 
 @keyframes twinkle {
@@ -539,14 +593,10 @@ body.loading {
 }
 
 .hero-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-xl);
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--spacing-xl) var(--spacing-md);
-  padding-top: 100px;
+  padding-bottom: 300px;
 }
 
 /* ===================================
@@ -839,6 +889,7 @@ body.loading {
 }
 
 .hero-text {
+  text-align: center;
   z-index: 2;
 }
 
@@ -871,54 +922,22 @@ body.loading {
 
 .hero-cta {
   display: flex;
+  justify-content: center;
   gap: var(--spacing-md);
   flex-wrap: wrap;
 }
 
-.cta-primary,
-.cta-secondary {
-  padding: var(--spacing-md) var(--spacing-xl);
+.cta-primary {
   border: none;
-  border-radius: var(--radius-md);
   font-weight: var(--font-weight-bold);
   cursor: pointer;
   transition: var(--transition-normal);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-.cta-primary {
-  background: linear-gradient(45deg, var(--color-primary), var(--color-primary-dark));
-  color: var(--color-bg-primary);
-  box-shadow: 0 4px 20px var(--color-shadow);
-}
-
 .cta-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 30px var(--color-shadow);
-}
-
-.cta-secondary {
-  background: transparent;
-  color: var(--color-text-primary);
-  border: 2px solid var(--color-border);
-}
-
-.cta-secondary:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-}
-
-.hero-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
 .character-preview {
@@ -1255,17 +1274,17 @@ body.loading {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
-.character-glow {
+/* .character-glow {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 120%;
-  height: 120%;
-  background: radial-gradient(circle, var(--color-shadow), transparent 70%);
-  animation: pulse 2s ease-in-out infinite;
-  pointer-events: none;
-}
+  width: 100%;
+  height: 100%;
+  left: 0;
+  object-fit: contain;
+  filter: none;
+} */
 
 .character-info {
   text-align: left;
@@ -1373,9 +1392,9 @@ body.loading {
    =================================== */
 
 .footer {
-  background: var(--color-bg-secondary);
+  background: var(--color-bg-primary);
   padding: var(--spacing-lg) 0;
-  border-top: 1px solid var(--color-border);
+  /* border-top: 1px solid var(--color-border); */
   text-align: center;
 }
 

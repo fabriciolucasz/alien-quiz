@@ -1,3 +1,41 @@
+// Starfield Animation - Dynamic Stars
+function createStars(numStars = 120) {
+  const starsLayer = document.getElementById('stars-layer');
+  if (!starsLayer) return;
+  starsLayer.innerHTML = '';
+  for (let i = 0; i < numStars; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2 + 1;
+    star.style.width = `${size}px`;
+    star.style.height = `${size}px`;
+    star.style.top = `${Math.random() * 100}%`;
+    star.style.left = `${Math.random() * 100}%`;
+    star.style.opacity = Math.random() * 0.7 + 0.3;
+    starsLayer.appendChild(star);
+  }
+}
+
+function animateStars() {
+  const stars = document.querySelectorAll('.star');
+  stars.forEach((star, idx) => {
+    star.animate([
+      { transform: 'translateY(0px) scale(1)' },
+      { transform: `translateY(${Math.sin(idx) * 8}px) scale(1.05)` },
+      { transform: 'translateY(0px) scale(1)' }
+    ], {
+      duration: 4000 + Math.random() * 2000,
+      iterations: Infinity,
+      direction: 'alternate',
+      easing: 'ease-in-out'
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  createStars();
+  animateStars();
+});
 /**
  * Alien: Earth Quiz Application
  * Sistema de quiz orientado a objetos para descobrir personagens do universo Alien
@@ -184,28 +222,36 @@ class QuizManager {
   setupCharacters() {
     this.characters = [
       new Character(
-        'survivor',
-        'Sobrevivente Terrestre',
-        'O Resistente',
-        'Você é uma pessoa resiliente que se adaptou à nova realidade pós-invasão. Como um Sobrevivente Terrestre da série Alien: Earth, você desenvolveu habilidades de sobrevivência excepcionais e uma determinação férrea para proteger a humanidade. Sua experiência em combate contra os Xenomorfos fez de você um líder natural entre os resistentes.',
-        'shield',
-        { courage: 9, survival: 10, leadership: 8, adaptability: 7 }
+        'humano',
+        'Humano',
+        'O Explorador',
+        'Você é um Humano, curioso, adaptável e movido pela esperança. Sua força está na capacidade de aprender, se reinventar e criar laços.',
+        'user',
+        { curiosidade: 10, adaptabilidade: 9, empatia: 8, criatividade: 9 }
       ),
       new Character(
-        'synthetic',
-        'Androide Weyland',
-        'O Protetor Sintético',
-        'Você é um ser sintético avançado da Weyland Corporation, programado para proteger a humanidade durante a invasão alienígena. Como um Androide da série Alien: Earth, você possui uma lógica impecável e habilidades de combate superiores, mas também desenvolveu uma compreensão profunda sobre o valor da vida humana e a importância da preservação da espécie.',
+        'android',
+        'Android',
+        'O Analítico',
+        'Você é um Android, lógico, eficiente e protetor. Sua missão é garantir a sobrevivência e o progresso, mesmo diante de desafios extremos.',
         'cpu',
-        { logic: 10, protection: 9, efficiency: 8, loyalty: 9 }
+        { logica: 10, eficiencia: 9, protecao: 8, lealdade: 9 }
       ),
       new Character(
-        'hybrid',
-        'Híbrido Evoluído',
-        'O Adaptado',
-        'Você é resultado da evolução natural entre humano e Xenomorph na Terra. Como um Híbrido da série Alien: Earth, você possui a inteligência humana combinada com as habilidades físicas alienígenas. Esta dualidade lhe permite compreender ambos os lados do conflito e buscar soluções que outros não conseguem ver, sendo uma ponte entre dois mundos.',
+        'sintetico',
+        'Sintético',
+        'O Visionário',
+        'Você é um Sintético, resultado da fusão entre tecnologia e biologia. Sua visão de mundo é inovadora e busca sempre o equilíbrio entre razão e emoção.',
         'git-merge',
-        { evolution: 10, duality: 9, insight: 8, adaptation: 10 }
+        { inovacao: 10, equilibrio: 9, insight: 8, adaptacao: 10 }
+      ),
+      new Character(
+        'xenoformo',
+        'Xenoformo',
+        'O Instintivo',
+        'Você é um Xenoformo, guiado pelo instinto, força e sobrevivência. Sua presença é misteriosa e poderosa, representando o desconhecido.',
+        'alien',
+        { instinto: 10, forca: 9, misterio: 8, sobrevivencia: 10 }
       )
     ];
   }
@@ -215,198 +261,69 @@ class QuizManager {
    */
   setupQuestions() {
     this.questions = [
-      new Question(
-        1,
-        'A Terra foi invadida pelos Xenomorfos. Você ouve gritos vindos de um prédio próximo. Qual é sua reação?',
-        null,
-        [
-          new QuestionOption(
-            'Corro imediatamente para ajudar, mesmo sabendo do perigo',
-            { survivor: 3, synthetic: 1, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Analiso a situação e planejo uma abordagem segura e eficiente',
-            { survivor: 1, synthetic: 3, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Sinto uma conexão estranha com a situação e confio nos meus instintos',
-            { survivor: 2, synthetic: 1, hybrid: 3 }
-          )
-        ]
-      ),
-      new Question(
-        2,
-        'Você encontra um sobrevivente ferido na Terra pós-invasão. Ele implora por ajuda, mas pode estar infectado. O que faz?',
-        null,
-        [
-          new QuestionOption(
-            'Ajudo imediatamente, toda vida humana vale o risco',
-            { survivor: 3, synthetic: 1, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Mantenho distância segura e faço uma análise médica completa primeiro',
-            { survivor: 1, synthetic: 3, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Posso sentir se há algo diferente nele, confio na minha percepção única',
-            { survivor: 2, synthetic: 1, hybrid: 3 }
-          )
-        ]
-      ),
-      new Question(
-        3,
-        'Sua equipe está dividida sobre uma decisão importante na Terra pós-invasão. Como você reage?',
-        null,
-        [
-          new QuestionOption(
-            'Defendo firmemente minha opinião e tento convencer os outros',
-            { survivor: 3, synthetic: 1, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Apresento todos os dados e deixo que a lógica prevaleça',
-            { survivor: 2, synthetic: 3, hybrid: 1 }
-          ),
-          new QuestionOption(
-            'Procuro um meio-termo que atenda às necessidades de todos',
-            { survivor: 1, synthetic: 2, hybrid: 3 }
-          )
-        ]
-      ),
-      new Question(
-        4,
-        'Você está enfrentando um dilema moral difícil. Como toma sua decisão?',
-        null,
-        [
-          new QuestionOption(
-            'Priorizo sempre a proteção e segurança das pessoas',
-            { survivor: 3, synthetic: 2, hybrid: 1 }
-          ),
-          new QuestionOption(
-            'Analiso friamente os prós e contras de cada opção',
-            { survivor: 1, synthetic: 3, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Sigo meu coração, mesmo que seja incompreendido',
-            { survivor: 2, synthetic: 1, hybrid: 3 }
-          )
-        ]
-      ),
-      new Question(
-        5,
-        'Em uma situação de extremo perigo, qual é sua maior força?',
-        null,
-        [
-          new QuestionOption(
-            'Minha determinação inabalável e coragem em face do medo',
-            { survivor: 3, synthetic: 1, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Minha capacidade de pensar claramente sob pressão',
-            { survivor: 2, synthetic: 3, hybrid: 1 }
-          ),
-          new QuestionOption(
-            'Minha habilidade de me adaptar rapidamente a qualquer situação',
-            { survivor: 1, synthetic: 2, hybrid: 3 }
-          )
-        ]
-      ),
-      new Question(
-        6,
-        'Como você lida com a solidão e o isolamento no espaço?',
-        null,
-        [
-          new QuestionOption(
-            'Foco nas minhas responsabilidades e nas pessoas que preciso proteger',
-            { survivor: 3, synthetic: 2, hybrid: 1 }
-          ),
-          new QuestionOption(
-            'Utilizo o tempo para processar informações e otimizar sistemas',
-            { survivor: 1, synthetic: 3, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Mergulho em reflexões profundas sobre minha existência',
-            { survivor: 2, synthetic: 1, hybrid: 3 }
-          )
-        ]
-      ),
-      new Question(
-        7,
-        'Qual seria sua abordagem para lidar com uma tecnologia alienígena desconhecida?',
-        null,
-        [
-          new QuestionOption(
-            'Extrema cautela - verifico todos os riscos antes de qualquer interação',
-            { survivor: 3, synthetic: 2, hybrid: 1 }
-          ),
-          new QuestionOption(
-            'Análise sistemática - estudo cada componente metodicamente',
-            { survivor: 1, synthetic: 3, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Intuição natural - sinto que posso compreender sua natureza',
-            { survivor: 2, synthetic: 1, hybrid: 3 }
-          )
-        ]
-      ),
-      new Question(
-        8,
-        'Se você pudesse escolher uma habilidade especial, qual seria?',
-        null,
-        [
-          new QuestionOption(
-            'Resistência física e mental extraordinária',
-            { survivor: 3, synthetic: 1, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Capacidade de processar e armazenar informações infinitamente',
-            { survivor: 1, synthetic: 3, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Habilidade de compreender e se comunicar com qualquer forma de vida',
-            { survivor: 2, synthetic: 2, hybrid: 3 }
-          )
-        ]
-      ),
-      new Question(
-        9,
-        'Em uma emergência, qual seria seu papel ideal na equipe?',
-        null,
-        [
-          new QuestionOption(
-            'Líder que toma decisões difíceis e protege a equipe',
-            { survivor: 3, synthetic: 2, hybrid: 1 }
-          ),
-          new QuestionOption(
-            'Especialista técnico que fornece soluções precisas',
-            { survivor: 1, synthetic: 3, hybrid: 2 }
-          ),
-          new QuestionOption(
-            'Mediador que encontra caminhos alternativos únicos',
-            { survivor: 2, synthetic: 1, hybrid: 3 }
-          )
-        ]
-      ),
-      new Question(
-        10,
-        'Qual frase melhor descreve sua filosofia de vida?',
-        null,
-        [
-          new QuestionOption(
-            '"Sobreviver não é suficiente - devemos proteger aqueles que não podem se proteger"',
-            { survivor: 3, synthetic: 1, hybrid: 2 }
-          ),
-          new QuestionOption(
-            '"A lógica e o conhecimento são as ferramentas mais poderosas do universo"',
-            { survivor: 1, synthetic: 3, hybrid: 2 }
-          ),
-          new QuestionOption(
-            '"Existe beleza e propósito na união entre mundos diferentes"',
-            { survivor: 2, synthetic: 2, hybrid: 3 }
-          )
-        ]
-      )
+      new Question(1, 'A Terra foi invadida pelos Xenomorfos. Você ouve gritos vindos de um prédio próximo. Qual é sua reação?', null, [
+        new QuestionOption('Corro para ajudar, mesmo sabendo do perigo', { humano: 3, android: 1, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Analiso a situação e planejo uma abordagem segura', { humano: 1, android: 3, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Confio nos meus instintos e ajo rapidamente', { humano: 2, android: 1, sintetico: 1, xenoformo: 3 }),
+        new QuestionOption('Busco uma solução inovadora para salvar todos', { humano: 2, android: 2, sintetico: 3, xenoformo: 1 })
+      ]),
+      new Question(2, 'Você encontra um sobrevivente ferido. Ele pode estar infectado. O que faz?', null, [
+        new QuestionOption('Ajudo imediatamente, toda vida vale o risco', { humano: 3, android: 1, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Faço uma análise médica completa antes de agir', { humano: 1, android: 3, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Confio na minha percepção única', { humano: 2, android: 1, sintetico: 1, xenoformo: 3 }),
+        new QuestionOption('Procuro uma solução inovadora para ajudar sem risco', { humano: 2, android: 2, sintetico: 3, xenoformo: 1 })
+      ]),
+      new Question(3, 'Sua equipe está dividida sobre uma decisão importante. Como você reage?', null, [
+        new QuestionOption('Defendo minha opinião e tento convencer os outros', { humano: 3, android: 1, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Apresento dados e deixo a lógica prevalecer', { humano: 1, android: 3, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Procuro um meio-termo para todos', { humano: 2, android: 2, sintetico: 3, xenoformo: 1 }),
+        new QuestionOption('Sigo meu instinto, mesmo que seja incompreendido', { humano: 1, android: 1, sintetico: 1, xenoformo: 3 })
+      ]),
+      new Question(4, 'Você está enfrentando um dilema moral difícil. Como toma sua decisão?', null, [
+        new QuestionOption('Priorizo a proteção das pessoas', { humano: 3, android: 2, sintetico: 1, xenoformo: 1 }),
+        new QuestionOption('Analiso friamente os prós e contras', { humano: 1, android: 3, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Sigo meu coração', { humano: 2, android: 1, sintetico: 1, xenoformo: 3 }),
+        new QuestionOption('Busco equilíbrio entre razão e emoção', { humano: 2, android: 2, sintetico: 3, xenoformo: 1 })
+      ]),
+      new Question(5, 'Em perigo extremo, qual é sua maior força?', null, [
+        new QuestionOption('Determinação e coragem', { humano: 3, android: 1, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Pensar claramente sob pressão', { humano: 1, android: 3, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Adaptar-se rapidamente', { humano: 2, android: 2, sintetico: 3, xenoformo: 1 }),
+        new QuestionOption('Instinto de sobrevivência', { humano: 1, android: 1, sintetico: 1, xenoformo: 3 })
+      ]),
+      new Question(6, 'Como lida com solidão e isolamento?', null, [
+        new QuestionOption('Foco nas responsabilidades e proteção', { humano: 3, android: 2, sintetico: 1, xenoformo: 1 }),
+        new QuestionOption('Otimizo sistemas e processos', { humano: 1, android: 3, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Reflexão profunda sobre existência', { humano: 2, android: 1, sintetico: 1, xenoformo: 3 }),
+        new QuestionOption('Busco inovação para superar desafios', { humano: 2, android: 2, sintetico: 3, xenoformo: 1 })
+      ]),
+      new Question(7, 'Como lida com tecnologia alienígena desconhecida?', null, [
+        new QuestionOption('Cautela extrema, verifico riscos', { humano: 3, android: 2, sintetico: 1, xenoformo: 1 }),
+        new QuestionOption('Análise sistemática e estudo', { humano: 1, android: 3, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Intuição natural', { humano: 2, android: 1, sintetico: 1, xenoformo: 3 }),
+        new QuestionOption('Busco inovação para compreender', { humano: 2, android: 2, sintetico: 3, xenoformo: 1 })
+      ]),
+      new Question(8, 'Se pudesse escolher uma habilidade especial, qual seria?', null, [
+        new QuestionOption('Resistência física e mental', { humano: 3, android: 1, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Processar e armazenar informações infinitamente', { humano: 1, android: 3, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Compreender e se comunicar com qualquer forma de vida', { humano: 2, android: 2, sintetico: 3, xenoformo: 1 }),
+        new QuestionOption('Instinto de adaptação', { humano: 1, android: 1, sintetico: 1, xenoformo: 3 })
+      ]),
+      new Question(9, 'Em uma emergência, qual seria seu papel ideal?', null, [
+        new QuestionOption('Líder que protege a equipe', { humano: 3, android: 2, sintetico: 1, xenoformo: 1 }),
+        new QuestionOption('Especialista técnico', { humano: 1, android: 3, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('Mediador inovador', { humano: 2, android: 2, sintetico: 3, xenoformo: 1 }),
+        new QuestionOption('Instintivo, encontra caminhos únicos', { humano: 1, android: 1, sintetico: 1, xenoformo: 3 })
+      ]),
+      new Question(10, 'Qual frase melhor descreve sua filosofia de vida?', null, [
+        new QuestionOption('"Sobreviver não é suficiente - devemos proteger todos"', { humano: 3, android: 1, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('"A lógica e o conhecimento são as ferramentas mais poderosas"', { humano: 1, android: 3, sintetico: 2, xenoformo: 1 }),
+        new QuestionOption('"Existe beleza e propósito na união entre mundos"', { humano: 2, android: 2, sintetico: 3, xenoformo: 1 }),
+        new QuestionOption('"O instinto é a chave para a sobrevivência"', { humano: 1, android: 1, sintetico: 1, xenoformo: 3 })
+      ])
     ];
   }
+  // ...existing code...
 
   /**
    * Obtém a pergunta atual
@@ -517,7 +434,7 @@ class QuizManager {
 
   /**
    * Volta para a pergunta anterior
-   * @returns {boolean} True se foi possível voltar
+   * @returns {boolean} True se conseguiu voltar
    */
   previousQuestion() {
     if (this.currentQuestionIndex > 0) {
@@ -528,6 +445,7 @@ class QuizManager {
     }
     return false;
   }
+  // Remove a pontuação da pergunta atual antes de voltar
 
   /**
    * Remove a pontuação da pergunta atual dos personagens
@@ -624,27 +542,12 @@ class QuizManager {
   }
 }
 
-// ===================================
-// CLASSE DE INTERFACE E DOM
-// ===================================
 
-/**
- * Classe responsável por gerenciar a interface do usuário
- */
-class UIManager {
+// ===================================
+// VIEW (QuizView)
+// ===================================
+class QuizView {
   constructor() {
-    this.currentSection = 'landing';
-    this.quiz = new QuizManager();
-
-    this.initializeElements();
-    this.attachEventListeners();
-    this.showLoadingScreen();
-  }
-
-  /**
-   * Inicializa referências aos elementos do DOM
-   */
-  initializeElements() {
     // Seções principais
     this.sections = {
       loading: document.getElementById('loading-screen'),
@@ -652,7 +555,6 @@ class UIManager {
       quiz: document.getElementById('quiz-section'),
       results: document.getElementById('results-section')
     };
-
     // Elementos do quiz
     this.quizElements = {
       progressFill: document.getElementById('progress-fill'),
@@ -666,7 +568,6 @@ class UIManager {
       nextBtnText: document.getElementById('next-btn-text'),
       exitBtn: document.getElementById('exit-quiz-btn')
     };
-
     // Elementos de resultado
     this.resultElements = {
       characterIcon: document.getElementById('result-character-icon'),
@@ -675,7 +576,6 @@ class UIManager {
       characterDescription: document.getElementById('result-character-description'),
       score: document.getElementById('result-score')
     };
-
     // Botões principais
     this.buttons = {
       startQuiz: document.getElementById('start-quiz-btn'),
@@ -686,258 +586,90 @@ class UIManager {
     };
   }
 
-  /**
-   * Anexa event listeners aos elementos
-   */
-  attachEventListeners() {
-    // Navegação do header
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const section = e.target.getAttribute('data-section');
-        this.navigateToSection(section);
-      });
-    });
-
-    // Botões principais
-    if (this.buttons.startQuiz) {
-      this.buttons.startQuiz.addEventListener('click', () => this.startQuiz());
-    }
-
-    if (this.buttons.learnMore) {
-      this.buttons.learnMore.addEventListener('click', () => this.showCharacterInfo());
-    }
-
-    // Navegação do quiz
-    if (this.quizElements.prevBtn) {
-      this.quizElements.prevBtn.addEventListener('click', () => this.previousQuestion());
-    }
-
-    if (this.quizElements.nextBtn) {
-      this.quizElements.nextBtn.addEventListener('click', () => this.nextQuestion());
-    }
-
-    if (this.quizElements.exitBtn) {
-      this.quizElements.exitBtn.addEventListener('click', () => this.exitQuiz());
-    }
-
-    // Botões de resultado
-    if (this.buttons.restartQuiz) {
-      this.buttons.restartQuiz.addEventListener('click', () => this.restartQuiz());
-    }
-
-    if (this.buttons.shareResult) {
-      this.buttons.shareResult.addEventListener('click', () => this.shareResult());
-    }
-
-    if (this.buttons.backHome) {
-      this.buttons.backHome.addEventListener('click', () => this.goHome());
-    }
-
-    // Navegação por cards de personagens
-    document.querySelectorAll('.character-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const characterId = card.getAttribute('data-character');
-        this.showCharacterDetail(characterId);
-      });
-    });
-  }
-
-  /**
-   * Navega para uma seção específica da landing page
-   * @param {string} sectionType - Tipo da seção (landing, about, characters)
-   */
-  navigateToSection(sectionType) {
-    if (sectionType === 'landing') {
-      // Vai para o topo da landing page
-      if (this.currentSection !== 'landing') {
-        this.showSection('landing');
-      }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (sectionType === 'about') {
-      // Vai para a seção sobre na landing page
-      if (this.currentSection !== 'landing') {
-        this.showSection('landing');
-      }
-      setTimeout(() => {
-        const aboutSection = document.getElementById('about-section');
-        if (aboutSection) {
-          aboutSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    } else if (sectionType === 'characters') {
-      // Vai para a seção de personagens
-      if (this.currentSection !== 'landing') {
-        this.showSection('landing');
-      }
-      setTimeout(() => {
-        const charactersSection = document.querySelector('.characters-preview');
-        if (charactersSection) {
-          charactersSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    }
-  }
-
-  /**
-   * Mostra a tela de loading e depois oculta
-   */
   showLoadingScreen() {
-    // Adiciona classe loading ao body para impedir scroll
     document.body.classList.add('loading');
-
     setTimeout(() => {
       if (this.sections.loading) {
         this.sections.loading.classList.add('hidden');
-        // Remove classe loading do body para permitir scroll novamente
         document.body.classList.remove('loading');
       }
     }, 2000);
   }
 
-  /**
-   * Mostra uma seção específica
-   * @param {string} sectionName - Nome da seção a ser mostrada
-   */
   showSection(sectionName) {
-    // Oculta todas as seções
     Object.values(this.sections).forEach(section => {
       if (section) section.classList.remove('active');
     });
-
-    // Mostra a seção solicitada
     if (this.sections[sectionName]) {
       this.sections[sectionName].classList.add('active');
-      this.currentSection = sectionName;
     }
   }
 
-  /**
-   * Inicia o quiz
-   */
-  startQuiz() {
-    // Verifica se há progresso salvo
-    const hasProgress = this.quiz.loadProgress();
-
-    if (hasProgress && this.quiz.currentQuestionIndex > 0) {
-      if (confirm('Encontramos um quiz em andamento. Deseja continuar de onde parou?')) {
-        this.showSection('quiz');
-        this.updateQuizInterface();
-        this.updateTotalQuestions();
-        this.showNotification('Quiz restaurado com sucesso!');
-        return;
-      }
-    }
-
-    // Inicia novo quiz
-    this.quiz.restart();
-    this.quiz.clearProgress();
-    this.showSection('quiz');
-    this.updateQuizInterface();
-    this.updateTotalQuestions();
-  }
-
-  /**
-   * Atualiza o número total de perguntas na interface
-   */
-  updateTotalQuestions() {
+  updateTotalQuestions(total) {
     if (this.quizElements.totalQuestions) {
-      this.quizElements.totalQuestions.textContent = this.quiz.questions.length;
+      this.quizElements.totalQuestions.textContent = total;
     }
   }
 
-  /**
-   * Atualiza a interface do quiz
-   */
-  updateQuizInterface() {
-    const currentQuestion = this.quiz.getCurrentQuestion();
+  updateQuizInterface(quiz) {
+    const currentQuestion = quiz.getCurrentQuestion();
     if (!currentQuestion) return;
-
-    // Atualiza progress bar
-    const progress = this.quiz.getProgress();
+    const progress = quiz.getProgress();
     if (this.quizElements.progressFill) {
       this.quizElements.progressFill.style.width = `${progress.percentage}%`;
     }
-
     if (this.quizElements.currentQuestion) {
       this.quizElements.currentQuestion.textContent = progress.current;
     }
-
-    // Atualiza pergunta
     if (this.quizElements.questionTitle) {
       this.quizElements.questionTitle.textContent = currentQuestion.text;
     }
-
-    // Atualiza imagem da pergunta (se houver)
     if (this.quizElements.questionImage && currentQuestion.imagePath) {
       this.quizElements.questionImage.src = currentQuestion.imagePath;
       this.quizElements.questionImage.style.display = 'block';
     } else if (this.quizElements.questionImage) {
       this.quizElements.questionImage.style.display = 'none';
     }
-
-    // Atualiza opções
-    this.updateAnswerOptions(currentQuestion);
-
-    // Atualiza botões de navegação
-    this.updateNavigationButtons();
+    this.updateAnswerOptions(quiz, currentQuestion);
+    this.updateNavigationButtons(quiz);
   }
 
-  /**
-   * Atualiza as opções de resposta
-   * @param {Question} question - Pergunta atual
-   */
-  updateAnswerOptions(question) {
+  updateAnswerOptions(quiz, question) {
     if (!this.quizElements.answersGrid) return;
-
     this.quizElements.answersGrid.innerHTML = '';
-
     question.options.forEach((option, index) => {
       const optionDiv = document.createElement('div');
       optionDiv.className = 'answer-option';
-
       const input = document.createElement('input');
       input.type = 'radio';
       input.name = 'quiz-answer';
       input.id = `option-${index}`;
       input.value = index;
-
       const label = document.createElement('label');
       label.htmlFor = `option-${index}`;
       label.textContent = option.text;
-
-      // Verifica se há resposta anterior
-      const currentAnswer = this.quiz.getCurrentAnswer();
+      const currentAnswer = quiz.getCurrentAnswer();
       if (currentAnswer && currentAnswer.optionIndex === index) {
         input.checked = true;
       }
-
       input.addEventListener('change', () => {
-        this.quiz.answerQuestion(index);
-        this.updateNavigationButtons();
+        quiz.answerQuestion(index);
+        this.updateNavigationButtons(quiz);
       });
-
       optionDiv.appendChild(input);
       optionDiv.appendChild(label);
       this.quizElements.answersGrid.appendChild(optionDiv);
     });
   }
 
-  /**
-   * Atualiza os botões de navegação
-   */
-  updateNavigationButtons() {
-    const progress = this.quiz.getProgress();
-    const hasAnswer = this.quiz.hasCurrentAnswer();
-
-    // Botão anterior
+  updateNavigationButtons(quiz) {
+    const progress = quiz.getProgress();
+    const hasAnswer = quiz.hasCurrentAnswer();
     if (this.quizElements.prevBtn) {
       this.quizElements.prevBtn.disabled = progress.current === 1;
     }
-
-    // Botão próximo
     if (this.quizElements.nextBtn) {
       this.quizElements.nextBtn.disabled = !hasAnswer;
-
       if (this.quizElements.nextBtnText) {
         if (progress.current === progress.total) {
           this.quizElements.nextBtnText.textContent = 'Ver Resultado →';
@@ -948,51 +680,8 @@ class UIManager {
     }
   }
 
-  /**
-   * Avança para a próxima pergunta
-   */
-  nextQuestion() {
-    if (!this.quiz.hasCurrentAnswer()) return;
-
-    const hasMore = this.quiz.nextQuestion();
-
-    if (hasMore) {
-      this.updateQuizInterface();
-    } else {
-      // Quiz completado, mostra resultados
-      this.quiz.clearProgress(); // Limpa progresso ao finalizar
-      this.showResults();
-    }
-  }
-
-  /**
-   * Volta para a pergunta anterior
-   */
-  previousQuestion() {
-    const canGoBack = this.quiz.previousQuestion();
-
-    if (canGoBack) {
-      this.updateQuizInterface();
-    }
-  }
-
-  /**
-   * Sai do quiz e volta para a landing page
-   */
-  exitQuiz() {
-    if (confirm('Tem certeza que deseja sair do quiz? Seu progresso será perdido.')) {
-      this.goHome();
-    }
-  }
-
-  /**
-   * Mostra os resultados do quiz
-   */
-  showResults() {
-    const result = this.quiz.calculateResult();
+  showResults(result) {
     if (!result) return;
-
-    // Atualiza elementos de resultado
     if (this.resultElements.characterIcon) {
       this.resultElements.characterIcon.setAttribute('data-lucide', result.character.imagePath);
       if (typeof lucide !== 'undefined') {
@@ -1011,65 +700,25 @@ class UIManager {
     if (this.resultElements.score) {
       this.resultElements.score.textContent = `${result.compatibilityPercentage}%`;
     }
-
-    // Exibe landing page e modal de resultado
+    // Volta para a landing-page e exibe o modal centralizado
     this.showSection('landing');
-    const modal = document.getElementById('result-modal');
-    if (modal) {
-      modal.classList.remove('hidden');
-    }
-
-    // Botão X para fechar modal
-    const closeBtn = document.getElementById('close-result-modal');
-    if (closeBtn) {
-      closeBtn.onclick = () => {
-        modal.classList.add('hidden');
-      };
-    }
+    setTimeout(() => {
+      const modal = document.getElementById('result-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.remove('hidden');
+      }
+      const closeBtn = document.getElementById('close-result-modal');
+      if (closeBtn) {
+        closeBtn.onclick = () => {
+          modal.classList.add('hidden');
+          modal.style.display = '';
+        };
+      }
+    }, 100);
   }
 
-  /**
-   * Reinicia o quiz
-   */
-  restartQuiz() {
-    this.startQuiz();
-  }
-
-  /**
-   * Volta para a página inicial
-   */
-  goHome() {
-    this.showSection('landing');
-  }
-
-  /**
-   * Mostra informações dos personagens
-   */
-  showCharacterInfo() {
-    // Scroll suave para a seção de personagens
-    const charactersSection = document.querySelector('.characters-preview');
-    if (charactersSection) {
-      charactersSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
-  /**
-   * Mostra detalhes de um personagem específico
-   * @param {string} characterId - ID do personagem
-   */
-  showCharacterDetail(characterId) {
-    const character = this.quiz.getCharacterById(characterId);
-    if (character) {
-      alert(`${character.name} - ${character.role}\n\n${character.description}`);
-    }
-  }
-
-  /**
-   * Mostra uma notificação temporária
-   * @param {string} message - Mensagem a ser exibida
-   */
   showNotification(message) {
-    // Cria elemento de notificação
     const notification = document.createElement('div');
     notification.className = 'notification';
     notification.textContent = message;
@@ -1085,10 +734,7 @@ class UIManager {
             z-index: 10000;
             animation: slideIn 0.3s ease;
         `;
-
     document.body.appendChild(notification);
-
-    // Remove após 3 segundos
     setTimeout(() => {
       notification.style.animation = 'slideOut 0.3s ease';
       setTimeout(() => {
@@ -1099,16 +745,194 @@ class UIManager {
 }
 
 // ===================================
+// CONTROLLER (QuizController)
+// ===================================
+class QuizController {
+  constructor() {
+    this.quiz = new QuizManager();
+    this.view = new QuizView();
+    this.currentSection = 'landing';
+    this.attachEventListeners();
+    this.view.showLoadingScreen();
+  }
+
+  attachEventListeners() {
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const section = e.target.getAttribute('data-section');
+        this.navigateToSection(section);
+      });
+    });
+    if (this.view.buttons.startQuiz) {
+      this.view.buttons.startQuiz.addEventListener('click', () => this.startQuiz());
+    }
+    if (this.view.buttons.learnMore) {
+      this.view.buttons.learnMore.addEventListener('click', () => this.showCharacterInfo());
+    }
+    if (this.view.quizElements.prevBtn) {
+      this.view.quizElements.prevBtn.addEventListener('click', () => this.previousQuestion());
+    }
+    if (this.view.quizElements.nextBtn) {
+      this.view.quizElements.nextBtn.addEventListener('click', () => this.nextQuestion());
+    }
+    if (this.view.quizElements.exitBtn) {
+      this.view.quizElements.exitBtn.addEventListener('click', () => this.exitQuiz());
+    }
+    if (this.view.buttons.restartQuiz) {
+      this.view.buttons.restartQuiz.addEventListener('click', () => this.restartQuiz());
+    }
+    if (this.view.buttons.shareResult) {
+      this.view.buttons.shareResult.addEventListener('click', () => this.shareResult());
+    }
+    if (this.view.buttons.backHome) {
+      this.view.buttons.backHome.addEventListener('click', () => this.goHome());
+    }
+    document.querySelectorAll('.character-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const characterId = card.getAttribute('data-character');
+        this.showCharacterDetail(characterId);
+      });
+    });
+  }
+
+  navigateToSection(sectionType) {
+    if (sectionType === 'landing') {
+      if (this.currentSection !== 'landing') {
+        this.view.showSection('landing');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (sectionType === 'about') {
+      if (this.currentSection !== 'landing') {
+        this.view.showSection('landing');
+      }
+      setTimeout(() => {
+        const aboutSection = document.getElementById('about-section');
+        if (aboutSection) {
+          aboutSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else if (sectionType === 'characters') {
+      if (this.currentSection !== 'landing') {
+        this.view.showSection('landing');
+      }
+      setTimeout(() => {
+        const charactersSection = document.querySelector('.characters-preview');
+        if (charactersSection) {
+          charactersSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }
+
+  startQuiz() {
+    const hasProgress = this.quiz.loadProgress();
+    if (hasProgress && this.quiz.currentQuestionIndex > 0) {
+      if (confirm('Encontramos um quiz em andamento. Deseja continuar de onde parou?')) {
+        this.view.showSection('quiz');
+        this.view.updateQuizInterface(this.quiz);
+        this.view.updateTotalQuestions(this.quiz.questions.length);
+        this.view.showNotification('Quiz restaurado com sucesso!');
+        return;
+      }
+    }
+    this.quiz.restart();
+    this.quiz.clearProgress();
+    this.view.showSection('quiz');
+    this.view.updateQuizInterface(this.quiz);
+    this.view.updateTotalQuestions(this.quiz.questions.length);
+  }
+
+  nextQuestion() {
+    if (!this.quiz.hasCurrentAnswer()) return;
+    const hasMore = this.quiz.nextQuestion();
+    if (hasMore) {
+      this.view.updateQuizInterface(this.quiz);
+    } else {
+      // Quiz completed: clear progress and show results
+      this.quiz.clearProgress();
+      this.view.showResults(this.quiz.calculateResult());
+      // Add listeners for modal actions
+      const modal = document.getElementById('result-modal');
+      if (modal) {
+        // 'Fazer novamente' button
+        const restartBtn = document.getElementById('restart-quiz-btn');
+        if (restartBtn) {
+          restartBtn.onclick = () => {
+            modal.classList.add('hidden');
+            this.startQuiz();
+          };
+        }
+        // 'Compartilhar' button
+        const shareBtn = document.getElementById('share-result-btn');
+        if (shareBtn) {
+          shareBtn.onclick = () => {
+            this.shareResult();
+          };
+        }
+        // 'Voltar para Home' button
+        const backHomeBtn = document.getElementById('back-home-btn');
+        if (backHomeBtn) {
+          backHomeBtn.onclick = () => {
+            modal.classList.add('hidden');
+            this.goHome();
+          };
+        }
+      }
+    }
+  }
+
+  previousQuestion() {
+    const canGoBack = this.quiz.previousQuestion();
+    if (canGoBack) {
+      this.view.updateQuizInterface(this.quiz);
+    }
+  }
+
+  exitQuiz() {
+    if (confirm('Tem certeza que deseja sair do quiz? Seu progresso será perdido.')) {
+      this.goHome();
+    }
+  }
+
+  restartQuiz() {
+    this.startQuiz();
+  }
+
+  goHome() {
+    this.view.showSection('landing');
+  }
+
+  showCharacterInfo() {
+    const charactersSection = document.querySelector('.characters-preview');
+    if (charactersSection) {
+      charactersSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  showCharacterDetail(characterId) {
+    const character = this.quiz.getCharacterById(characterId);
+    if (character) {
+      alert(`${character.name} - ${character.role}\n\n${character.description}`);
+    }
+  }
+
+  shareResult() {
+    // Implementar lógica de compartilhamento futuramente
+    this.view.showNotification('Função de compartilhamento em breve!');
+  }
+}
+
+// ===================================
 // INICIALIZAÇÃO DA APLICAÇÃO
 // ===================================
 
 /**
  * Inicializa a aplicação quando o DOM estiver carregado
  */
-document.addEventListener('DOMContentLoaded', () => {
-  // Inicializa o gerenciador de UI
-  const app = new UIManager();
 
+document.addEventListener('DOMContentLoaded', () => {
+  // Inicializa o controller principal
+  const controller = new QuizController();
   // Adiciona animações CSS para notificações
   const style = document.createElement('style');
   style.textContent = `
@@ -1116,20 +940,16 @@ document.addEventListener('DOMContentLoaded', () => {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
-        
         @keyframes slideOut {
             from { transform: translateX(0); opacity: 1; }
             to { transform: translateX(100%); opacity: 0; }
         }
     `;
   document.head.appendChild(style);
-
   // Log de inicialização (remover em produção)
   console.log('Alien: Earth Quiz inicializado com sucesso.');
-  console.log('Personagens carregados:', app.quiz.characters.length);
-  console.log('Perguntas carregadas:', app.quiz.questions.length);
-
-  // Inicializa os ícones do Lucide
+  console.log('Personagens carregados:', controller.quiz.characters.length);
+  console.log('Perguntas carregadas:', controller.quiz.questions.length);
   if (typeof lucide !== 'undefined') {
     lucide.createIcons();
   }
