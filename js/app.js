@@ -53,26 +53,14 @@ class Character {
     this.score = 0;
   }
 
-  /**
-   * Adiciona pontos ao score do personagem
-   * @param {number} points - Pontos a serem adicionados
-   */
   addScore(points) {
     this.score += points;
   }
 
-  /**
-   * Reseta o score do personagem
-   */
   resetScore() {
     this.score = 0;
   }
 
-  /**
-   * Calcula a porcentagem de compatibilidade baseada na pontuação máxima possível
-   * @param {number} maxPossibleScore - Pontuação máxima possível
-   * @returns {number} Porcentagem de compatibilidade
-   */
   getCompatibilityPercentage(maxPossibleScore) {
     return Math.round((this.score / maxPossibleScore) * 100);
   }
