@@ -1,3 +1,76 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glow-effect,
+.alien-loader,
+.progress-fill,
+.character-glow {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+:root {
+  --color-primary: #00ff88;
+  --color-primary-dark: #00cc6a;
+  --color-secondary: #ff4444;
+  --color-accent: #00ddff;
+
+  --color-bg-primary: #0F0F0F;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-tertiary: #2a2a2a;
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #cccccc;
+  --color-text-muted: #888888;
+
+  --color-border: #333333;
+  --color-shadow: rgba(0, 255, 136, 0.2);
+
+  --font-primary: 'Arial', 'Helvetica', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+  --spacing-xxl: 4rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body.loading {
+  height: 100vh;
+  overflow: hidden;
+}
+
 .modal-content {
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary) var(--color-bg-secondary);
@@ -17,7 +90,6 @@
   border-radius: 4px;
 }
 
-/* Botão com background place.svg */
 #start-quiz-btn {
   position: relative;
   background: url('../assets/images/place.svg') no-repeat center/cover;
@@ -45,9 +117,6 @@
   z-index: 1;
   overflow: hidden;
 }
-
-/* Modal Resultado Quiz */
-
 
 .result-modal {
   position: fixed;
@@ -157,119 +226,6 @@
   margin-top: 1.5rem;
 }
 
-@media (max-width: 600px) {
-  .modal-content {
-    max-width: 98vw;
-    padding: 1.2rem 0.5rem 1.2rem;
-  }
-}
-
-/* ===================================
-   CSS RESET & GENERAL STYLES
-   =================================== */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Performance optimizations */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Hardware acceleration for animations */
-.glow-effect,
-.alien-loader,
-.progress-fill,
-.character-glow {
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-:root {
-  /* Alien: Earth Color Palette */
-  --color-primary: #00ff88;
-  /* Alien green */
-  --color-primary-dark: #00cc6a;
-  /* Darker green */
-  --color-secondary: #ff4444;
-  /* Warning red */
-  --color-accent: #00ddff;
-  /* Cyan accent */
-
-  /* Background Colors */
-  --color-bg-primary: #0F0F0F;
-  /* Deep black */
-  --color-bg-secondary: #1a1a1a;
-  /* Dark gray */
-  --color-bg-tertiary: #2a2a2a;
-  /* Medium gray */
-
-  /* Text Colors */
-  --color-text-primary: #ffffff;
-  /* White */
-  --color-text-secondary: #cccccc;
-  /* Light gray */
-  --color-text-muted: #888888;
-  /* Muted gray */
-
-  /* UI Colors */
-  --color-border: #333333;
-  /* Border gray */
-  --color-shadow: rgba(0, 255, 136, 0.2);
-  /* Green glow */
-
-  /* Typography */
-  --font-primary: 'Arial', 'Helvetica', sans-serif;
-  --font-weight-normal: 400;
-  --font-weight-bold: 700;
-
-  /* Spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 3rem;
-  --spacing-xxl: 4rem;
-
-  /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-
-  /* Transitions */
-  --transition-fast: 0.2s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow: 0.5s ease;
-}
-
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-}
-
-body {
-  font-family: var(--font-primary);
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
-  line-height: 1.6;
-  overflow-x: hidden;
-  min-height: 100vh;
-}
-
-/* Prevent scrolling during loading */
-body.loading {
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* ===================================
-   UTILITY CLASSES
-   =================================== */
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -311,10 +267,6 @@ body.loading {
     transform: translate(-50%, -50%) scale(1.1);
   }
 }
-
-/* ===================================
-   LOADING SCREEN
-   =================================== */
 
 .loading-screen {
   position: fixed;
@@ -425,10 +377,6 @@ body.loading {
   background: rgba(0, 255, 136, 0.1);
 }
 
-/* ===================================
-   HERO SECTION
-   =================================== */
-
 .hero-container {
   position: relative;
   min-height: 100vh;
@@ -517,7 +465,6 @@ body.loading {
   }
 }
 
-/* Wall PE Layers (inspirado GTABattlegrounds) */
 .wall-pe-layers {
   position: absolute;
   left: 0;
@@ -536,8 +483,6 @@ body.loading {
   top: 70px;
   width: 100%;
   height: 100%;
-  /* opacity: 0.7; */
-  /* filter: brightness(0.7) sepia(1) hue-rotate(90deg) saturate(2); */
   z-index: 2;
   animation: wallpe-move 22s linear infinite alternate;
 }
@@ -549,8 +494,6 @@ body.loading {
   top: 100px;
   width: 100%;
   height: 100%;
-  /* opacity: 0.8; */
-  /* filter: brightness(0.8) sepia(1) hue-rotate(90deg) saturate(2); */
   z-index: 3;
   animation: mountain1-wave 3.5s cubic-bezier(.36, .07, .19, .97) infinite alternate;
 }
@@ -563,7 +506,6 @@ body.loading {
   width: 100%;
   height: 100%;
   opacity: 0.9;
-  /* filter: brightness(0.9) sepia(1) hue-rotate(90deg) saturate(2); */
   z-index: 1;
   animation: wallpe-move 14s linear infinite alternate;
 }
@@ -605,9 +547,6 @@ body.loading {
   padding-bottom: 300px;
 }
 
-/* ===================================
-   ABOUT SECTION
-   =================================== */
 .about-section {
   padding: var(--spacing-xxl) var(--spacing-md) var(--spacing-xl);
   background: linear-gradient(180deg, rgba(10, 10, 10, 0.95) 0%, rgba(15, 15, 15, 0.95) 100%);
@@ -734,9 +673,6 @@ body.loading {
   color: var(--color-text-secondary);
 }
 
-/* ===================================
-   LUCIDE ICONS SYSTEM
-   =================================== */
 .hero-icon-container {
   position: relative;
   width: 200px;
@@ -810,14 +746,12 @@ body.loading {
   filter: drop-shadow(0 0 40px var(--color-primary));
 }
 
-/* Button Icons */
 .btn-icon {
   width: 20px;
   height: 20px;
   color: currentColor;
 }
 
-/* Character List Icons */
 .char-icon {
   width: 32px;
   height: 32px;
@@ -826,7 +760,6 @@ body.loading {
   flex-shrink: 0;
 }
 
-/* Block Title Icons */
 .block-title i {
   width: 24px;
   height: 24px;
@@ -834,9 +767,6 @@ body.loading {
   margin-right: 0.5rem;
 }
 
-/* ===================================
-   STARFIELD & NEBULA ANIMATIONS (Enhanced)
-   =================================== */
 .stars-layer {
   animation: twinkle 10s ease-in-out infinite, star-drift 60s linear infinite;
   background-size: 200px 200px, 400px 400px;
@@ -957,10 +887,6 @@ body.loading {
   filter: drop-shadow(0 0 30px var(--color-shadow));
 }
 
-/* ===================================
-   CHARACTERS PREVIEW SECTION
-   =================================== */
-
 .characters-preview {
   padding: var(--spacing-xxl) 0;
   background: var(--color-bg-secondary);
@@ -1053,10 +979,6 @@ body.loading {
   color: var(--color-text-secondary);
   line-height: 1.6;
 }
-
-/* ===================================
-   QUIZ SECTION
-   =================================== */
 
 .quiz-container {
   max-width: 800px;
@@ -1225,10 +1147,6 @@ body.loading {
   transform: none !important;
 }
 
-/* ===================================
-   RESULTS SECTION
-   =================================== */
-
 .results-container {
   max-width: 900px;
   margin: 0 auto;
@@ -1371,7 +1289,6 @@ body.loading {
   box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
 }
 
-/* Action Button Layout */
 .results-actions .action-button {
   display: inline-flex;
   align-items: center;
@@ -1382,10 +1299,6 @@ body.loading {
 .btn-label {
   letter-spacing: .5px;
 }
-
-/* ===================================
-   FOOTER
-   =================================== */
 
 .footer {
   background: var(--color-bg-primary);
@@ -1404,53 +1317,6 @@ body.loading {
   color: var(--color-text-muted);
   font-size: 0.9rem;
   margin-bottom: var(--spacing-xs);
-
-
-
-
-
-  .hero-cta {
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .cta-primary,
-  .cta-secondary {
-    width: 100%;
-    max-width: 280px;
-  }
-
-  .character-result {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .character-info {
-    text-align: center;
-  }
-
-  .quiz-navigation {
-    flex-direction: column;
-  }
-
-  .nav-button {
-    width: 100%;
-  }
-
-  .results-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .action-button {
-    width: 100%;
-    max-width: 280px;
-  }
-
-  .nav-menu {
-    display: none;
-  }
 }
 
 @media (max-width: 480px) {
@@ -1475,5 +1341,12 @@ body.loading {
 
   .results-title {
     font-size: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    max-width: 98vw;
+    padding: 1.2rem 0.5rem 1.2rem;
   }
 }
